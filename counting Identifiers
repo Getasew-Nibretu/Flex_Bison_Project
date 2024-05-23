@@ -1,0 +1,54 @@
+
+%{
+
+#undef yywrap
+#define yywrap() 1
+void display(int);
+	
+%}
+
+%%
+
+[0-9] {
+ int symbol=1;
+ display(symbol);
+ return 0;
+ }
+[A-Z] {
+ int symbol = 2;
+ display(symbol);
+ return 0;
+ }
+[a-z] {
+ int symbol = 3;
+ display(symbol);
+ return 0;
+ }
+. { 
+ int symbol = 0;
+ display(symbol);
+ return 0;
+ }
+
+%%c
+
+
+void display(int symbol)
+{
+  if(symbol==1)
+   printf("The input [%s] is a digit!",yytext); 
+  else if(symbol==2)
+   printf("The input [%s] is a capital letter!",yytext);
+  else if(symbol==3)
+   printf("The input [%s] is a small letter!",yytext);
+  else
+   printf("The input [%s] is wrong!",yytext);
+}
+
+/* yywrap() */
+int main()
+{
+ printf("Enter input?");
+ yylex();
+ return 0;
+}
